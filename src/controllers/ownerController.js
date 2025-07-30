@@ -1,5 +1,5 @@
 // controllers/ownerController.js
-const Aluno = require('../models/Aluno');
+const Aluno = require('../models/aluno');
 const cloudinary = require('../config/cloudinary'); // Certifique-se de que o caminho está correto
 const fs = require('fs');
 const { calculateCategoryFromBirthDate } = require('../utils/categoryCalculator'); // Importa a função utilitária
