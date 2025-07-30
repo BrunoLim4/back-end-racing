@@ -15,13 +15,16 @@ const { router: loginRoutes } = require('./login'); // Mantenha essa importaçã
 
 const app = express();
 
-// --- Conexão com o MongoDB (Adicionado) ---
-// É crucial conectar ao banco de dados logo no início da sua aplicação
+// --- Conexão com o MongoDB ---
+// Aumentando os tempos limite de conexão para dar mais tempo ao Mongoose
+// para estabelecer a conexão e realizar operações, especialmente em ambientes de nuvem.
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     // useCreateIndex: true, // Removido, deprecated no Mongoose 6+
     // useFindAndModify: false, // Removido, deprecated no Mongoose 6+
+    serverSelectionTimeoutMS: 30000, // Aumenta o tempo limite de seleção do servidor para 30 segundos
+    socketTimeoutMS: 45000,         // Aumenta o tempo limite de inatividade do socket para 45 segundos
 })
 .then(() => console.log('Conectado ao MongoDB!'))
 .catch(err => console.error('Erro de conexão com o MongoDB:', err));

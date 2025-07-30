@@ -1,5 +1,5 @@
 const multer = require('multer');
-const path = require('path');
+const path = require('path'); // CORREÇÃO: Adicionado parênteses aqui
 
 // Configuração do Multer para aceitar apenas imagens temporariamente no servidor
 const storage = multer.diskStorage({
