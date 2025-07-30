@@ -29,9 +29,25 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // --- Middlewares Essenciais ---
 
-// CORREÇÃO: Configuração do CORS para permitir o domínio do seu frontend da Vercel
+// CORREÇÃO: Configuração do CORS para permitir múltiplas origens
+const allowedOrigins = [
+  'https://cadastroracing.vercel.app', // Domínio do frontend de cadastro (pais)
+  'https://dashboardracing-azure.vercel.app', // Domínio do frontend do dashboard (dono)
+  // Adicione outras origens se necessário, por exemplo, seu localhost para desenvolvimento:
+  'http://localhost:5173', // Exemplo de porta para frontend de desenvolvimento
+  'http://localhost:3000', // Outro exemplo de porta para frontend de desenvolvimento
+];
+
 const corsOptions = {
-  origin: 'https://cadastroracing.vercel.app', // Substitua pelo domínio EXATO do seu frontend na Vercel
+  origin: function (origin, callback) {
+    // Permite requisições sem origem (como de Postman/Insomnia ou arquivos locais)
+    // ou se a origem está na lista de origens permitidas.
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos HTTP permitidos
   credentials: true, // Permite o envio de cookies de credenciais (se você usar no futuro)
   optionsSuccessStatus: 204 // Para navegadores mais antigos (IE11, alguns SmartTVs)
