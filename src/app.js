@@ -21,8 +21,6 @@ const app = express();
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // useCreateIndex: true, // Removido, deprecated no Mongoose 6+
-    // useFindAndModify: false, // Removido, deprecated no Mongoose 6+
     serverSelectionTimeoutMS: 30000, // Aumenta o tempo limite de seleção do servidor para 30 segundos
     socketTimeoutMS: 45000,         // Aumenta o tempo limite de inatividade do socket para 45 segundos
 })
@@ -30,7 +28,16 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch(err => console.error('Erro de conexão com o MongoDB:', err));
 
 // --- Middlewares Essenciais ---
-app.use(cors()); // Permite requisições de diferentes origens (importante para o frontend)
+
+// CORREÇÃO: Configuração do CORS para permitir o domínio do seu frontend da Vercel
+const corsOptions = {
+  origin: 'https://cadastroracing.vercel.app', // Substitua pelo domínio EXATO do seu frontend na Vercel
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos HTTP permitidos
+  credentials: true, // Permite o envio de cookies de credenciais (se você usar no futuro)
+  optionsSuccessStatus: 204 // Para navegadores mais antigos (IE11, alguns SmartTVs)
+};
+app.use(cors(corsOptions)); // Aplica o middleware CORS com as opções configuradas
+
 app.use(express.json()); // Para parsear o corpo das requisições JSON
 app.use(express.urlencoded({ extended: true })); // Para parsear o corpo das requisições URL-encoded
 
