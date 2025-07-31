@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // CORREÇÃO: Configuração do CORS para permitir múltiplas origens
 const allowedOrigins = [
   'https://cadastroracing.vercel.app', // Domínio do frontend de cadastro (pais)
-  'https://dashboardracing-azure.vercel.app', // Domínio do frontend do dashboard (dono)
+  'https://dashboardracing.vercel.app', // Domínio do frontend do dashboard (dono)
   // Adicione outras origens se necessário, por exemplo, seu localhost para desenvolvimento:
   'http://localhost:5173', // Exemplo de porta para frontend de desenvolvimento
   'http://localhost:3000', // Outro exemplo de porta para frontend de desenvolvimento
